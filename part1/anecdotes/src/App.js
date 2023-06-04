@@ -55,7 +55,7 @@ const AnecdoteMostVotes = (props) => {
 const App = () => {
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState(initialVotes);
-  let [highest, setHighest] = useState(0);
+  const [highest, setHighest] = useState(0);
 
   const handleNextClick = () => {
     const getRandomInt = (maxNumber) => {
@@ -73,7 +73,7 @@ const App = () => {
       }
     });
     setVotes(updatedVotes);
-    setHighest((highest = updatedVotes.indexOf(Math.max(...updatedVotes))));
+    setHighest(+updatedVotes.indexOf(Math.max(...updatedVotes)));
   };
 
   return (
