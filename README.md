@@ -11,3 +11,7 @@
 - [courseinfo](part1/courseinfo/)
 - [unicafe](part1/unicafe/)
 - [anecdotes](part1/anecdotes)
+
+## Part2
+
+- [courseinfo](part2/courseinfo/)
