@@ -35,7 +35,7 @@ const PersonForm = ({
 
   return (
     <div>
-      <h3>Add a New Person</h3>
+      <h3>Add Contact</h3>
       <form onSubmit={addPerson}>
         <div>
           Name: <input value={newName} onChange={handleNameChange} />

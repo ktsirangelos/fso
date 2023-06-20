@@ -4,7 +4,7 @@ const Filter = ({ handleFilterChange }) => {
       <h3>Filter</h3>
       <form>
         <div>
-          Filter shown with: <input onChange={handleFilterChange} />
+          Keywords: <input onChange={handleFilterChange} />
         </div>
       </form>
     </div>

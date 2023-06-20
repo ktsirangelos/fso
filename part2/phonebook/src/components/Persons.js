@@ -9,7 +9,7 @@ const Number = ({ person }) => {
 const Persons = ({ filter }) => {
   return (
     <div>
-      <h3>Persons</h3>
+      <h3>Contacts</h3>
       <table>
         <tbody>
           {filter.map((person) => (
