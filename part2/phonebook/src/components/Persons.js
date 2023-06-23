@@ -1,12 +1,17 @@
-const Name = ({ person }) => {
-  return <td>{person.name}</td>;
-};
+import personService from "../services/personService";
 
-const Number = ({ person }) => {
-  return <td>{person.number}</td>;
-};
+const Persons = ({ persons, setPersons, filter, setFilter }) => {
+  const deleteThisPerson = (person) => {
+    if (window.confirm(`Delete ${person.name}?`)) {
+      personService.deletePerson(person);
+      const isId = (obj) => obj.id === person.id;
+      const index = persons.findIndex(isId);
+      const personsChanged = persons.toSpliced(index, 1);
+      setFilter(personsChanged);
+      setPersons(personsChanged);
+    }
+  };
 
-const Persons = ({ filter }) => {
   return (
     <div>
       <h3>Contacts</h3>
@@ -14,8 +19,11 @@ const Persons = ({ filter }) => {
         <tbody>
           {filter.map((person) => (
             <tr key={person.id}>
-              <Name person={person} />
-              <Number person={person} />
+              <td>{person.name}</td>
+              <td>{person.number}</td>
+              <td>
+                <button onClick={() => deleteThisPerson(person)}>delete</button>
+              </td>
             </tr>
           ))}
         </tbody>
