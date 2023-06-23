@@ -2,16 +2,17 @@ import personService from "../services/personService";
 
 const PersonForm = ({
   persons,
-  personsStr,
   setPersons,
   newName,
   setNewName,
   newNumber,
   setNewNumber,
-  filter,
-  setFilter,
+  personsFiltered,
+  setPersonsFiltered,
   handleNameChange,
   handleNumberChange,
+  setErrorMessage,
+  setErrorType,
 }) => {
   const addPerson = (event) => {
     event.preventDefault();
@@ -20,48 +21,62 @@ const PersonForm = ({
       number: newNumber,
     };
 
-    const personObjectsStr = JSON.stringify(personObjects);
-    const personObjectsStrSpl = personObjectsStr.split(",", 1);
-
     const personFound = persons.find(
       (person) => person.name === personObjects.name
     );
 
-    if (personsStr.includes(personObjectsStrSpl)) {
+    if (persons.indexOf(personFound) !== -1) {
       if (
         window.confirm(
           `${personObjects.name} is already added to phonebook, replace the old number with a new one?`
         )
       ) {
         personService
-          .update(personFound.id, personObjects)
+          .updatePerson(personFound.id, personObjects)
           .then((updatedPerson) => {
             setPersons(
               persons.map((person) =>
                 person.id !== personFound.id ? person : updatedPerson
               )
             );
-            setFilter(
-              filter.map((person) =>
+            setPersonsFiltered(
+              personsFiltered.map((person) =>
                 person.id !== personFound.id ? person : updatedPerson
               )
             );
+          })
+          .catch(() => {
+            setErrorMessage(
+              `'${personObjects.name}' was already removed from the server`
+            );
+            setErrorType("error");
+            setTimeout(() => {
+              setErrorMessage(null);
+              setErrorType(null);
+            }, 5000);
           });
+        setErrorMessage(`'${personObjects.name}' was successfully updated`);
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 3000);
       }
     } else {
-      personService.create(personObjects).then((returnedNote) => {
+      personService.createPerson(personObjects).then((returnedNote) => {
         setPersons(persons.concat(returnedNote));
-        setFilter(filter.concat(returnedNote));
+        setPersonsFiltered(personsFiltered.concat(returnedNote));
       });
+      setErrorMessage(`'${personObjects.name}' was successfully added`);
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000);
     }
-
     setNewName("");
     setNewNumber("");
   };
 
   return (
     <div>
-      <h3>Add Contact</h3>
+      <h2>Add Person</h2>
       <form onSubmit={addPerson}>
         <div>
           Name: <input value={newName} onChange={handleNameChange} />

@@ -1,23 +1,32 @@
+// React
 import { useState, useEffect } from "react";
-import Filter from "./components/Filter";
-import PersonForm from "./components/PersonForm";
+
+// Components
 import Persons from "./components/Persons";
+import PersonForm from "./components/PersonForm";
+import Filter from "./components/Filter";
+import Notification from "./components/Notification";
+
+// Services
 import personService from "./services/personService";
 
 const App = () => {
+  // Hooks
   const [persons, setPersons] = useState([]);
-  const personsStr = JSON.stringify(persons);
+  const [personsFiltered, setPersonsFiltered] = useState(persons);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
-  const [filter, setFilter] = useState(persons);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorType, setErrorType] = useState(null);
 
   useEffect(() => {
-    personService.getAll().then((initialPersons) => {
+    personService.getAllPersons().then((initialPersons) => {
       setPersons(initialPersons);
-      setFilter(initialPersons);
+      setPersonsFiltered(initialPersons);
     });
   }, []);
 
+  // Event handlers
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   };
@@ -27,7 +36,7 @@ const App = () => {
   };
 
   const handleFilterChange = (event) => {
-    setFilter(
+    setPersonsFiltered(
       persons.filter((object) =>
         object.name.toLowerCase().includes(event.target.value.toLowerCase())
       )
@@ -36,26 +45,32 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+
+      <Notification message={errorMessage} type={errorType} />
+
       <Filter handleFilterChange={handleFilterChange} />
+
       <PersonForm
         persons={persons}
-        personsStr={personsStr}
         setPersons={setPersons}
+        personsFiltered={personsFiltered}
         newName={newName}
         setNewName={setNewName}
+        handleNameChange={handleNameChange}
         newNumber={newNumber}
         setNewNumber={setNewNumber}
-        filter={filter}
-        setFilter={setFilter}
-        handleNameChange={handleNameChange}
         handleNumberChange={handleNumberChange}
+        setPersonsFiltered={setPersonsFiltered}
+        setErrorMessage={setErrorMessage}
+        setErrorType={setErrorType}
       />
+
       <Persons
-        filter={filter}
         persons={persons}
-        setFilter={setFilter}
         setPersons={setPersons}
+        personsFiltered={personsFiltered}
+        setPersonsFiltered={setPersonsFiltered}
       />
     </div>
   );

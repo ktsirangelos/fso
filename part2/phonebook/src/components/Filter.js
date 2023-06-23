@@ -1,10 +1,10 @@
 const Filter = ({ handleFilterChange }) => {
   return (
     <div>
-      <h3>Filter</h3>
+      <h2>Filter</h2>
       <form>
         <div>
-          Keywords: <input onChange={handleFilterChange} />
+          Keyword: <input onChange={handleFilterChange} />
         </div>
       </form>
     </div>
