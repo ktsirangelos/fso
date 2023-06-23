@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Persons from "./components/Persons";
 import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
-import Notification from "./components/Notification";
+import Notifications from "./components/Notifications";
 
 // Services
 import personService from "./services/personService";
@@ -16,8 +16,8 @@ const App = () => {
   const [personsFiltered, setPersonsFiltered] = useState(persons);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [errorType, setErrorType] = useState(null);
+  const [notificationMessage, setNotificationMessage] = useState(null);
+  const [notificationType, setNotificationType] = useState(null);
 
   useEffect(() => {
     personService.getAllPersons().then((initialPersons) => {
@@ -47,7 +47,7 @@ const App = () => {
     <div>
       <h1>Phonebook</h1>
 
-      <Notification message={errorMessage} type={errorType} />
+      <Notifications message={notificationMessage} type={notificationType} />
 
       <Filter handleFilterChange={handleFilterChange} />
 
@@ -62,8 +62,8 @@ const App = () => {
         setNewNumber={setNewNumber}
         handleNumberChange={handleNumberChange}
         setPersonsFiltered={setPersonsFiltered}
-        setErrorMessage={setErrorMessage}
-        setErrorType={setErrorType}
+        setNotificationMessage={setNotificationMessage}
+        setNotificationType={setNotificationType}
       />
 
       <Persons

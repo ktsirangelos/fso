@@ -11,8 +11,8 @@ const PersonForm = ({
   setPersonsFiltered,
   handleNameChange,
   handleNumberChange,
-  setErrorMessage,
-  setErrorType,
+  setNotificationMessage,
+  setNotificationType,
 }) => {
   const addPerson = (event) => {
     event.preventDefault();
@@ -46,18 +46,20 @@ const PersonForm = ({
             );
           })
           .catch(() => {
-            setErrorMessage(
+            setNotificationMessage(
               `'${personObjects.name}' was already removed from the server`
             );
-            setErrorType("error");
+            setNotificationType("error");
             setTimeout(() => {
-              setErrorMessage(null);
-              setErrorType(null);
+              setNotificationMessage(null);
+              setNotificationType(null);
             }, 5000);
           });
-        setErrorMessage(`'${personObjects.name}' was successfully updated`);
+        setNotificationMessage(
+          `'${personObjects.name}' was successfully updated`
+        );
         setTimeout(() => {
-          setErrorMessage(null);
+          setNotificationMessage(null);
         }, 3000);
       }
     } else {
@@ -65,9 +67,9 @@ const PersonForm = ({
         setPersons(persons.concat(returnedNote));
         setPersonsFiltered(personsFiltered.concat(returnedNote));
       });
-      setErrorMessage(`'${personObjects.name}' was successfully added`);
+      setNotificationMessage(`'${personObjects.name}' was successfully added`);
       setTimeout(() => {
-        setErrorMessage(null);
+        setNotificationMessage(null);
       }, 3000);
     }
     setNewName("");
