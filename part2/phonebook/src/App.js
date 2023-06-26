@@ -46,7 +46,6 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-
       <Notification message={notificationMessage} type={notificationType} />
       <Filter handleFilterChange={handleFilterChange} />
       <PersonForm
