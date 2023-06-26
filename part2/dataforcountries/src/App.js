@@ -6,7 +6,6 @@ import countryService from "./services/countryService";
 
 // Components
 const Filter = ({ handleFilterChange, countriesFiltered }) => {
-  console.log(countriesFiltered);
   return (
     <div>
       <h2>Filter</h2>
