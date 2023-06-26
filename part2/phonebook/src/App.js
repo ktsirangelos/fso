@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Persons from "./components/Persons";
 import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
-import Notifications from "./components/Notifications";
+import Notification from "./components/Notification";
 
 // Services
 import personService from "./services/personService";
@@ -47,10 +47,8 @@ const App = () => {
     <div>
       <h1>Phonebook</h1>
 
-      <Notifications message={notificationMessage} type={notificationType} />
-
+      <Notification message={notificationMessage} type={notificationType} />
       <Filter handleFilterChange={handleFilterChange} />
-
       <PersonForm
         persons={persons}
         setPersons={setPersons}
@@ -65,7 +63,6 @@ const App = () => {
         setNotificationMessage={setNotificationMessage}
         setNotificationType={setNotificationType}
       />
-
       <Persons
         persons={persons}
         setPersons={setPersons}

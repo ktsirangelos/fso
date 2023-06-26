@@ -46,10 +46,10 @@ const PersonForm = ({
             );
           })
           .catch(() => {
+            setNotificationType("error");
             setNotificationMessage(
               `'${personObjects.name}' was already removed from the server`
             );
-            setNotificationType("error");
             setTimeout(() => {
               setNotificationMessage(null);
               setNotificationType(null);

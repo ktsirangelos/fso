@@ -1,4 +1,4 @@
-const Notifications = ({ message, type }) => {
+const Notification = ({ message, type }) => {
   // Styles
   const style = {
     color: "green",
@@ -21,4 +21,4 @@ const Notifications = ({ message, type }) => {
   );
 };
 
-export default Notifications;
+export default Notification;
