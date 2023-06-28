@@ -3,9 +3,10 @@ import countryService from "../services/countryService";
 
 const Country = ({ countriesFiltered, weather, setWeather }) => {
   useEffect(() => {
-    countryService.getSingleWeather("photos").then((weatherObject) => {
+    (async () => {
+      const weatherObject = await countryService.getSingleWeather("photos");
       setWeather(weatherObject[0]);
-    });
+    })();
   }, [setWeather]);
 
   return (
