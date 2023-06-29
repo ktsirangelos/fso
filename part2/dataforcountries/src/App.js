@@ -10,9 +10,11 @@ function App() {
   const [countriesFiltered, setCountriesFiltered] = useState([]);
   const [weather, setWeather] = useState({});
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       try {
         const fetchedCountries = await countryService.getCountries();
         setCountries(fetchedCountries);
@@ -20,6 +22,7 @@ function App() {
       } catch (error) {
         console.error(error);
       }
+      setIsLoading(false);
     })();
   }, []);
 
@@ -37,8 +40,9 @@ function App() {
   // Conditions
   const conditions = {
     moreThanTen: countriesFiltered.length > 10,
-    moreThanOne: 1 < countriesFiltered.length && countriesFiltered.length < 10,
+    moreThanOne: 1 < countriesFiltered.length && countriesFiltered.length <= 10,
     exactlyOne: countriesFiltered.length === 1,
+    noMatch: countriesFiltered.length === 0,
   };
 
   return (
@@ -46,11 +50,12 @@ function App() {
       <h1>Country Search</h1>
       <Filter handleFilterChange={handleFilterChange} />
       <h2>Countries</h2>
-      {!hasStartedTyping && <p>Type a country name</p>}
-      {hasStartedTyping && conditions.moreThanTen && (
+      {isLoading && <p>Loading...</p>}
+      {!isLoading && !hasStartedTyping && <p>Type a country name</p>}
+      {!isLoading && hasStartedTyping && conditions.moreThanTen && (
         <p>Too many matches, specify another filter</p>
       )}
-      {conditions.moreThanOne && (
+      {!isLoading && conditions.moreThanOne && (
         <Countries
           countriesFiltered={countriesFiltered}
           setCountriesFiltered={setCountriesFiltered}
@@ -58,12 +63,15 @@ function App() {
           setWeather={setWeather}
         />
       )}
-      {conditions.exactlyOne && (
+      {!isLoading && conditions.exactlyOne && (
         <Country
           countriesFiltered={countriesFiltered}
           weather={weather}
           setWeather={setWeather}
         />
+      )}
+      {!isLoading && conditions.noMatch && (
+        <p>No matches found, please specify another filter</p>
       )}
     </div>
   );

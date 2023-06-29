@@ -1,19 +1,25 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import countryService from "../services/countryService";
 
 const Country = ({ countriesFiltered, weather, setWeather }) => {
+  const [lastFetchedCountry, setLastFetchedCountry] = useState(null);
+
   useEffect(() => {
     (async () => {
+      if (lastFetchedCountry === countriesFiltered[0].name.common) {
+        return;
+      }
       try {
         const weatherObject = await countryService.getWeather(
           countriesFiltered[0]
         );
         setWeather(weatherObject);
+        setLastFetchedCountry(countriesFiltered[0].name.common);
       } catch (error) {
         console.error(error);
       }
     })();
-  }, [countriesFiltered, setWeather]);
+  }, [countriesFiltered, setWeather, lastFetchedCountry]);
 
   return (
     <div>
