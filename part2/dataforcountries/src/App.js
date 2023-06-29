@@ -1,34 +1,35 @@
 // React
 import { useState, useEffect } from "react";
-
-// Services
 import countryService from "./services/countryService";
-
-// Components
 import Filter from "./components/Filter";
 import Countries from "./components/Countries";
 import Country from "./components/Country";
 
 function App() {
-  // Hooks
   const [countries, setCountries] = useState([]);
   const [countriesFiltered, setCountriesFiltered] = useState([]);
-  const [weather, setWeather] = useState([]);
+  const [weather, setWeather] = useState({});
+  const [hasStartedTyping, setHasStartedTyping] = useState(false);
 
   useEffect(() => {
-    countryService.getAllCountries().then((initialCountries) => {
-      setCountries(initialCountries);
-      setCountriesFiltered(initialCountries);
-    });
+    (async () => {
+      try {
+        const fetchedCountries = await countryService.getCountries();
+        setCountries(fetchedCountries);
+        setCountriesFiltered(fetchedCountries);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
   }, []);
 
   // Event Handlers
   const handleFilterChange = (event) => {
+    const inputValue = event.target.value.toLowerCase();
+    setHasStartedTyping(inputValue !== "");
     setCountriesFiltered(
-      countries.filter((object) =>
-        object.name.common
-          .toLowerCase()
-          .includes(event.target.value.toLowerCase())
+      countries.filter((countryObject) =>
+        countryObject.name.common.toLowerCase().includes(inputValue)
       )
     );
   };
@@ -40,13 +41,13 @@ function App() {
     exactlyOne: countriesFiltered.length === 1,
   };
 
-  // Return
   return (
     <div>
       <h1>Country Search</h1>
       <Filter handleFilterChange={handleFilterChange} />
       <h2>Countries</h2>
-      {conditions.moreThanTen && (
+      {!hasStartedTyping && <p>Type a country name</p>}
+      {hasStartedTyping && conditions.moreThanTen && (
         <p>Too many matches, specify another filter</p>
       )}
       {conditions.moreThanOne && (
