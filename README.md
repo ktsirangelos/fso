@@ -17,3 +17,7 @@
 - [courseinfo](part2/courseinfo/)
 - [phonebook](part2/phonebook/)
 - [dataforcountries](part2/dataforcountries/)
+
+## Part3
+
+- [phonebook](https://github.com/ktsirangelos/fso-part3)
