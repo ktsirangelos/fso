@@ -8,16 +8,17 @@
 
 ## Part1
 
-- [courseinfo](part1/courseinfo/)
-- [unicafe](part1/unicafe/)
-- [anecdotes](part1/anecdotes)
+- [Courseinfo](part1/courseinfo/)
+- [Unicafe](part1/unicafe/)
+- [Anecdotes](part1/anecdotes)
 
 ## Part2
 
-- [courseinfo](part2/courseinfo/)
-- [phonebook](part2/phonebook/)
-- [dataforcountries](part2/dataforcountries/)
+- [Courseinfo](part2/courseinfo/)
+- [Phonebook](part2/phonebook/)
+- [DataForCountries](part2/dataforcountries/)
 
 ## Part3
 
-- [phonebook](https://github.com/ktsirangelos/fso-part3)
+- [Phonebook backend](https://github.com/ktsirangelos/fso-part3) (external repo)
+- [Phonebook updated frontend](part3/phonebook-updated-frontend)

@@ -1,0 +1,60 @@
+module.exports = {
+  'env': {
+    'node': true,
+    'browser': true,
+    'commonjs': true,
+    'es2021': true
+  },
+  'extends': ['eslint:recommended',
+    'plugin:react/recommended'],
+  'overrides': [
+    {
+      'env': {
+        'node': true
+      },
+      'files': [
+        '.eslintrc.{js,cjs}'
+      ],
+      'parserOptions': {
+        'sourceType': 'script'
+      }
+    }
+  ],
+  'parserOptions': {
+    'ecmaVersion': 'latest',
+    'sourceType': 'module'
+  },
+  'rules': {
+    'react/prop-types': 'off',
+    'react/react-in-jsx-scope': 'off',
+    'eqeqeq': 'error',
+    'no-trailing-spaces': 'error',
+    'object-curly-spacing': [
+      'error', 'always'
+    ],
+    'arrow-spacing': [
+      'error', { 'before': true, 'after': true }
+    ],
+    'no-console': 0,
+    'indent': [
+      'error',
+      2
+    ],
+    'linebreak-style': [
+      'error',
+      'unix'
+    ],
+    'quotes': [
+      'error',
+      'single'
+    ],
+    'semi': [
+      'error',
+      'never'
+    ]
+  }, 'settings': {
+    'react': {
+      'version': 'detect' // or replace "detect" with your specific version
+    }
+  }
+}
