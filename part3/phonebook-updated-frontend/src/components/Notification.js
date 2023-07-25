@@ -1,5 +1,4 @@
 const Notification = ({ message, type }) => {
-  // Styles
   const style = {
     color: 'green',
     background: 'lightgrey',

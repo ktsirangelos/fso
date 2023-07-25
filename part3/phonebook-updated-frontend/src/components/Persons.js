@@ -6,14 +6,13 @@ const Persons = ({
   personsFiltered,
   setPersonsFiltered,
 }) => {
+
   const deleteThisPerson = (person) => {
     if (window.confirm(`Delete ${person.name}?`)) {
       personService.deletePerson(person)
-      const isId = (obj) => obj.id === person.id
-      const index = persons.findIndex(isId)
-      const personsChanged = persons.toSpliced(index, 1)
-      setPersonsFiltered(personsChanged)
+      const personsChanged = persons.filter((p) => p.id !== person.id)
       setPersons(personsChanged)
+      setPersonsFiltered(personsChanged)
     }
   }
 
