@@ -22,3 +22,7 @@
 
 - [Phonebook backend](https://github.com/ktsirangelos/fso-part3) (external repository)
 - [Phonebook updated frontend](part3/phonebook-updated-frontend)
+
+## Part 4 - Testing Express servers, user administration
+
+- [Bloglist backend](/part4)
