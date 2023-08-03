@@ -1,11 +1,11 @@
 const listHelper = require('../utils/list_helper')
 
-describe('total likes', () => {
+describe('most blogs', () => {
   const emptylist = []
 
   test('of empty list is zero', () => {
-    const result = listHelper.totalLikes(emptylist)
-    expect(result).toBe(0)
+    const result = listHelper.mostBlogs(emptylist)
+    expect(result).toBe('none')
   })
 
   const listWithOneBlog = [
@@ -19,9 +19,9 @@ describe('total likes', () => {
     }
   ]
 
-  test('when list has only one blog, the likes of this blog', () => {
-    const result = listHelper.totalLikes(listWithOneBlog)
-    expect(result).toBe(5)
+  test('when list has only one blog, it is the favorite blog', () => {
+    const result = listHelper.mostBlogs(listWithOneBlog)
+    expect(result).toEqual(listWithOneBlog)
   })
 
   const listWithManyBlogs = [
@@ -76,8 +76,14 @@ describe('total likes', () => {
   ]
 
   test('of a bigger list is calculated right', () => {
-    const result = listHelper.totalLikes(listWithManyBlogs)
-    expect(result).toBe(36)
+    const result = listHelper.mostBlogs(listWithManyBlogs)
+    const objToMatch = {
+      author: "Robert C. Martin",
+      blogs: 3
+    }
+    expect(result).toEqual(objToMatch)
   })
 })
+
+
 
