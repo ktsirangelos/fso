@@ -29,6 +29,25 @@ test('unique identifier is named id', async () => {
   }
 })
 
+test('a valid note can be added', async () => {
+  const newBlog = {
+    title: 'test4',
+    author: 'test4',
+    url: 'test4',
+    likes: 4
+  }
+
+  const response = await api.post('/api/blogs').send(newBlog)
+  expect(response.status).toBe(201)
+  expect(response.header['content-type']).toMatch(/application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+
+  const titles = blogsAtEnd.map(r => r.title)
+  expect(titles).toContain('test4')
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
