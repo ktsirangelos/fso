@@ -21,6 +21,14 @@ test('correct amount of blogs are returned as json', async () => {
   expect(response.header['content-type']).toMatch(/application\/json/);
 })
 
+test('unique identifier is named id', async () => {
+  const response = await api.get('/api/blogs')
+
+  for (let blog of response.body) {
+    expect(blog.id).toBeDefined()
+  }
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
