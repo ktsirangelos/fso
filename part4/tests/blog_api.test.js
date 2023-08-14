@@ -48,6 +48,30 @@ test('a valid note can be added', async () => {
   expect(titles).toContain('test4')
 })
 
+test('if likes is missing from the request, likes = 0', async () => {
+  const newBlog = {
+    title: 'test5',
+    author: 'test5',
+    url: 'test5'
+  }
+
+  const response = await api.post('/api/blogs').send(newBlog)
+  expect(response.status).toBe(201)
+  expect(response.header['content-type']).toMatch(/application\/json/)
+
+  const addedBlogId = response.body.id;
+  const blogById = await Blog.findById(addedBlogId);
+  expect(blogById.likes).toBe(0);
+})
+
+test('unique identifier is named id', async () => {
+  const response = await api.get('/api/blogs')
+
+  for (let blog of response.body) {
+    expect(blog.id).toBeDefined()
+  }
+})
+
 afterAll(async () => {
   await mongoose.connection.close()
 })
