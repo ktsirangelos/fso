@@ -48,11 +48,20 @@ test('a valid note can be added', async () => {
   expect(titles).toContain('test4')
 })
 
+test('unique identifier is named id', async () => {
+  const response = await api.get('/api/blogs')
+
+  for (let blog of response.body) {
+    expect(blog.id).toBeDefined()
+  }
+})
+
 test('if likes is missing from the request, likes = 0', async () => {
   const newBlog = {
     title: 'test5',
     author: 'test5',
     url: 'test5'
+    // likes: missing
   }
 
   const response = await api.post('/api/blogs').send(newBlog)
@@ -64,12 +73,32 @@ test('if likes is missing from the request, likes = 0', async () => {
   expect(blogById.likes).toBe(0);
 })
 
-test('unique identifier is named id', async () => {
-  const response = await api.get('/api/blogs')
-
-  for (let blog of response.body) {
-    expect(blog.id).toBeDefined()
+test('if title is missing from the request, status code 400', async () => {
+  const newBlog = {
+    // title: missing
+    author: 'test6',
+    url: 'test6',
+    likes: 6
   }
+
+  const response = await api.post('/api/blogs').send(newBlog)
+  expect(response.header['content-type']).toMatch(/application\/json/)
+  expect(response.statusCode).toBe(400)
+  expect(response.res.statusMessage).toBe('Bad Request')
+})
+
+test('if url is missing from the request, status code 400', async () => {
+  const newBlog = {
+    title: 'test7',
+    author: 'test7',
+    // url: missing
+    likes: 7
+  }
+
+  const response = await api.post('/api/blogs').send(newBlog)
+  expect(response.header['content-type']).toMatch(/application\/json/)
+  expect(response.statusCode).toBe(400)
+  expect(response.res.statusMessage).toBe('Bad Request')
 })
 
 afterAll(async () => {
