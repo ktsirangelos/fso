@@ -3,7 +3,7 @@ const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
-// Attention! Errors are handled by 'express-async-errors'
+// ATTENTION! Errors are handled by 'express-async-errors'
 
 // GET
 blogsRouter.get('/', async (request, response) => {
