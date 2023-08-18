@@ -6,7 +6,11 @@
   "scripts": {
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development nodemon index.js",
-    "test": "NODE_ENV=test jest --verbose --runInBand"
+    "test": "NODE_ENV=test jest --verbose --runInBand",
+    "create-user": "source .env && curl -d '{\"username\": \"testUsername2\", \"name\": \"testName\", \"password\": \"testPassword\"}' -H 'Content-Type: application/json' http://localhost:3003/api/users",
+    "login-user": "source .env && curl -d '{\"username\": \"testUsername2\", \"password\": \"testPassword\"}' -H 'Content-Type: application/json' http://localhost:3003/api/login",
+    "create-blog": "source .env && curl -d '{\"title\": \"testBlog\", \"author\": \"testAuthor\", \"url\": \"testUrl\", \"likes\": 5, \"userId\": \"$USER_ID\"}' -H 'Content-Type: application/json' -H \"Authorization: Bearer $TOKEN\" http://localhost:$PORT/api/blogs",
+    "delete-blog": "source .env && curl -X DELETE -H \"Authorization: Bearer $TOKEN\" http://localhost:$PORT/api/blogs/$BLOG_ID"
   },
   "author": "ktsirangelos",
   "license": "ISC",
