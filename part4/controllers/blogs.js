@@ -1,30 +1,29 @@
-const jwt = require('jsonwebtoken')
 const blogsRouter = require('express').Router()
+const middleware = require('../utils/middleware')
 const Blog = require('../models/blog')
-const User = require('../models/user')
 
 // ATTENTION! Errors are handled by 'express-async-errors'
 
 // GET
-blogsRouter.get('/', async (request, response) => {
+blogsRouter.get('/', async (req, res) => {
   const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
-  response.json(blogs)
+  res.json(blogs)
 })
 
-blogsRouter.get('/:id', async (request, response, next) => {
-  const blog = await Blog.findById(request.params.id)
+blogsRouter.get('/:id', async (req, res, next) => {
+  const blog = await Blog.findById(req.params.id)
 
   if (blog) {
-    response.json(blog)
+    res.json(blog)
   } else {
-    response.status(404).end()
+    res.status(404).end()
   }
 })
 
 // POST
-blogsRouter.post('/', async (request, response) => {
-  const body = request.body
-  const user = request.user
+blogsRouter.post('/', middleware.userExtractor, async (req, res) => {
+  const body = req.body
+  const user = req.user
 
   const blog = new Blog({
     title: body.title || '',
@@ -38,29 +37,29 @@ blogsRouter.post('/', async (request, response) => {
   user.blogs = user.blogs.concat(savedBlog._id)
   await user.save()
 
-  response.status(201).json(savedBlog)
+  res.status(201).json(savedBlog)
 })
 
 // DELETE
-blogsRouter.delete('/:id', async (request, response) => {
-  const user = request.user
+blogsRouter.delete('/:id', middleware.userExtractor, async (req, res) => {
+  const user = req.user
 
-  const blog = await Blog.findById(request.params.id)
+  const blog = await Blog.findById(req.params.id)
   if (!blog) {
-    return response.status(404).json({ error: 'blog not found' })
+    return res.status(404).json({ error: 'blog not found' })
   }
 
   if (blog.user.toString() !== user.id.toString()) {
-    return response.status(403).json({ error: 'operation not allowed' })
+    return res.status(403).json({ error: 'operation not allowed' })
   }
 
-  await Blog.findByIdAndRemove(request.params.id);
-  response.status(200).json({ message: 'blog successfully deleted' });
+  await Blog.findByIdAndRemove(req.params.id);
+  res.status(200).json({ message: 'blog successfully deleted' });
 })
 
 // PUT
-blogsRouter.put('/:id', async (request, response, next) => {
-  const body = request.body
+blogsRouter.put('/:id', middleware.userExtractor, async (req, res, next) => {
+  const body = req.body
 
   const blog = {
     title: body.title,
@@ -69,9 +68,9 @@ blogsRouter.put('/:id', async (request, response, next) => {
     likes: body.likes
   }
 
-  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+  const updatedBlog = await Blog.findByIdAndUpdate(req.params.id, blog, { new: true })
 
-  response.json(updatedBlog)
+  res.json(updatedBlog)
 })
 
 module.exports = blogsRouter
